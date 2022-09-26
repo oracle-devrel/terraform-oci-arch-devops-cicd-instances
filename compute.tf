@@ -2,7 +2,7 @@
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
 data "template_file" "bootstrap" {
-  template = file("${path.module}/userdata/bootstrap")
+  template = file("./userdata/bootstrap")
 }
 
 data "template_cloudinit_config" "cloud_init" {

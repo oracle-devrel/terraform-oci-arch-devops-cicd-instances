@@ -108,13 +108,9 @@ Delete all the artifacts with in the `OCI Artifact repository` then follow terra
 This project is open source.  Please submit your contributions by forking this repository and submitting a pull request!  Oracle appreciates any contributions that are made by the open source community.
 
 ### Attribution & Credits
-Initially, this project was created and distributed in [GitHub Oracle QuickStart space](https://github.com/oracle-quickstart/oci-arch-devops-cicd-with-functions). For that reason, we would like to thank all the involved contributors enlisted below:
-- Lukasz Feldman (https://github.com/lfeldman)
 - Rahul M R (https://github.com/RahulMR42)
 
 ## License
 Copyright (c) 2022 Oracle and/or its affiliates.
-
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-
 See [LICENSE](LICENSE) for more details.
