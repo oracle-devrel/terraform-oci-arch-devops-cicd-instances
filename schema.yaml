@@ -1,0 +1,576 @@
+## Copyright (c) 2022, Oracle and/or its affiliates.
+## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
+
+title: "Deployment Java Graal Application on Compute Instances with  OCI DevOps services."
+stackDescription: "Deployment Java Graal Application on Compute Instances with  OCI DevOps services."
+description: "Deployment Java Graal Application on Compute Instances with  OCI DevOps services."
+schemaVersion: 1.1.0
+version: "20220922"
+locale: "en"
+
+#################
+# Variable Groups
+#################
+variableGroups:
+- title: General Configuration
+  visible: false
+  variables:
+  - tenancy_ocid
+  - compartment_ocid
+  - user_ocid
+  - fingerprint
+  - private_key_path
+  - region
+  - ssh_public_key
+  - oci_user_name
+  - oci_user_authtoken
+  - app_name
+  - release
+  - project_logging_config_retention_period_in_days
+  - project_description
+  - compute_instance_1_name
+  - compute_instance_2_name
+  - instance_shape
+  - instance_shape_ocpus
+  - instance_shape_memory_in_gbs
+  - instance_os
+  - linux_os_version
+  - availability_domain_name
+  - VCN-CIDR
+  - Subnet-CIDR
+  - repository_name
+  - repository_default_branch
+  - repository_description
+  - repository_repository_type
+  - git_repo
+  - git_repo_name
+  - build_pipeline_description
+  - build_pipeline_display_name
+  - build_pipeline_stage_build_pipeline_stage_type
+  - build_pipeline_stage_build_source_collection_items_connection_type
+  - build_pipeline_stage_build_source_collection_items_branch
+  - build_pipeline_stage_build_source_collection_items_name
+  - build_pipeline_stage_build_spec_file
+  - build_pipeline_stage_display_name
+  - build_pipeline_stage_image
+  - build_pipeline_stage_wait_criteria_wait_duration
+  - build_pipeline_stage_wait_criteria_wait_type
+  - build_pipeline_stage_stage_execution_timeout_in_seconds
+  - devops_instance_deploy_spec_artifact_name
+  - devops_instance_deploy_spec_path
+  - devops_app_executable_name
+  - devops_app_executable_path
+  - build_pipeline_stage_deliver_artifact_stage_type
+  - deliver_artifact_stage_display_name
+  - loadbalancer_display_name{
+  - loadbalancer_listner_name{
+  - loadbalancer_shape
+  - loadbalancer_maximum_bandwidth_in_mbps
+  - loadbalancer_minimum_bandwidth_in_mbps
+  - loadbalancer_backend_set_name
+  - loadbalancer_backendset_policy
+  - loadbalancer_backendset_port
+  - loadbalancer_backend_port
+  - loadbalancer_listener_port
+  - deploy_pipeline_name
+  - deploy_pipeline_description
+  - build_pipeline_stage_deploy_stage_type
+  - deploy_stage_display_name
+  - deploy_stage_type
+  - deploy_display_name
+  - deploy_description
+  - deploy_failure_count
+  - deploy_backend_port
+  - deploy_batch_count
+  - deploy_batch_delay_in_seconds
+  - build_pipeline_stage_is_pass_all_parameters_enabled
+  - devops_env_prod_displayname
+
+- title: "Required Configuration"
+  visible: true  
+  variables:
+    - oci_user_name
+    - oci_user_authtoken
+    - availability_domain_name
+    - show_advanced
+
+- title: "DevOps Project Configuration"
+  visible: true  
+  variables:
+    - compartment_ocid
+    - app_name
+    - project_description
+    - project_logging_config_retention_period_in_days
+
+- title: "DevOps Deploy Artifact Configuration"
+  visible: true  
+  variables:
+    - devops_instance_deploy_spec_artifact_name
+
+- title: "DevOps Build Pipeline Configuration"
+  visible: true  
+  variables:
+    - build_pipeline_description
+    - build_pipeline_display_name
+
+- title: "DevOps Build Pipeline - Build Stage Configuration"
+  visible: true  
+  variables:
+    - repository_name
+    - repository_default_branch
+    - repository_description
+    - repository_repository_type
+    - git_repo
+    - git_repo_name
+    - build_pipeline_description
+    - build_pipeline_display_name
+    - build_pipeline_stage_build_pipeline_stage_type
+    - build_pipeline_stage_build_source_collection_items_connection_type
+    - build_pipeline_stage_build_source_collection_items_branch
+    - build_pipeline_stage_build_source_collection_items_name
+    - build_pipeline_stage_build_spec_file
+    - build_pipeline_stage_display_name
+    - build_pipeline_stage_image
+    - build_pipeline_stage_wait_criteria_wait_duration
+    - build_pipeline_stage_wait_criteria_wait_type
+    - build_pipeline_stage_stage_execution_timeout_in_seconds
+    - build_pipeline_stage_deliver_artifact_stage_type
+    - build_pipeline_stage_deploy_stage_type
+    - build_pipeline_stage_is_pass_all_parameters_enabled
+
+
+- title: "DevOps Build Pipeline - Deliver Stage Configuration"
+  visible: true  
+  variables:    
+    - deliver_artifact_stage_display_name
+
+- title: DevOps Build Pipeline - Deploy Stage Configuration
+  visible: true  
+  variables:    
+    - deploy_stage_display_name
+    - deploy_pipeline_description
+
+- title: "DevOps Build Pipeline -  Deploy to Instance Stage Configuration"
+  visible: true  
+  variables:
+    - devops_instance_deploy_spec_artifact_name
+    - devops_instance_deploy_spec_path
+    - loadbalancer_display_name
+    - loadbalancer_listner_name
+    - loadbalancer_shape
+    - loadbalancer_maximum_bandwidth_in_mbps
+    - loadbalancer_minimum_bandwidth_in_mbps
+    - loadbalancer_backend_set_name
+    - loadbalancer_backendset_policy
+    - loadbalancer_backendset_port
+    - loadbalancer_backend_port
+    - loadbalancer_listener_port
+    - deploy_pipeline_name
+    - deploy_pipeline_description
+    - deploy_stage_display_name
+    - deploy_stage_type
+    - deploy_display_name
+    - deploy_description
+    - deploy_failure_count
+    - deploy_backend_port
+    - deploy_batch_count
+    - deploy_batch_delay_in_seconds
+
+
+- title: "DevOps Instances Environment Configuration"
+  visible: true  
+  variables:
+    - ssh_public_key
+    - compute_instance_1_name
+    - compute_instance_2_name
+    - instance_shape
+    - instance_shape_ocpus
+    - instance_shape_memory_in_gbs
+    - instance_os
+    - devops_instance_deploy_spec_artifact_name
+    - devops_instance_deploy_spec_path
+    - devops_env_prod_displayname
+
+######################
+# Variable Definitions
+######################
+
+variables:
+
+# Required
+
+  oci_user_name:
+    type: string
+    required: true
+    visibile: true
+    title: "OCI username"
+    description: "For a federated user (single sign-on with an identity provider), enter the username in the following format: TenancyName/Federation/UserName. For example, if you use OCI's identity provider, your login would be, Acme/oracleidentitycloudservice/alice.jones@acme.com. If you are using OCI's direct sign-in, enter the username in the following format: TenancyName/YourUserName. For example, Acme/alice_jones. Your password is the auth token you created previously."
+
+  oci_user_authtoken:
+    type: password
+    required: true
+    visibile: true
+    title: "OCI user auth token"
+    description: "You can get the auth token from your Profile menu -> click User Settings -> On left side  click *Auth Tokens -> Generate Token"
+
+  availability_domain_name:
+    type: oci:identity:availabilitydomain:name
+    required: true
+    visibile: true
+    title: "Availability Domain to be chosen"
+    description: "Choose Availability Domain where your infrastructure will be deployed."
+    dependsOn:
+      regionName: ${region}
+      compartmentId: ${compartment_ocid}
+
+  show_advanced:
+    type: boolean
+    title: "Show advanced options?"
+    description: "Shows advanced options."
+    visible: true
+    default: false
+
+  compartment_ocid: 
+    type: oci:identity:compartment:id
+    title: "Compartment"
+    description: "The compartment in which to create resources"
+    required: true
+
+  app_name:
+    type: string
+    title: "Project Name"
+    required: true
+
+  project_logging_config_retention_period_in_days:
+    type: number
+    minimum: 1
+    maximum: 65535
+    title: "Project Logs retention period"
+    description: "Days to retain logs from the Project."
+    default: 30
+    required: true
+    visible: 
+      and:
+        - show_advanced
+
+  ssh_public_key:
+    type: oci:core:ssh:publickey
+    title: "Import your own SSH public key"
+    additionalProps:
+      allowMultiple: true
+    required: false
+    pattern: "((^(ssh-rsa AAAAB3NzaC1yc2|ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNT|ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzOD|ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1Mj|ssh-ed25519 AAAAC3NzaC1lZDI1NTE5|ssh-dss AAAAB3NzaC1kc3)[0-9A-Za-z+\/]+[=]{0,3})( [^,]*)?)(,((ssh-rsa AAAAB3NzaC1yc2|ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNT|ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzOD|ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1Mj|ssh-ed25519 AAAAC3NzaC1lZDI1NTE5|ssh-dss AAAAB3NzaC1kc3)[0-9A-Za-z+\/]+[=]{0,3})( [^,]*)?)*$"
+    visible:
+      and:
+        - show_advanced
+
+  instance_shape:
+    type: oci:core:instanceshape:name
+    title: "Select a shape for Instances"
+    required: false
+    dependsOn:
+      compartmentId: ${compartment_ocid}
+    visible: true
+
+  instance_shape_ocpus:
+    type: integer
+    minimum: 1
+    maximum: 64
+    title: "Number of OCPUs"
+    visible:
+      and:
+        - or:
+          - eq:
+            - instance_shape 
+            - "VM.Standard.E4.Flex"
+          - eq:
+            - instance_shape 
+            - "VM.Standard.A1.Flex"
+
+  instance_shape_memory_in_gbs:
+    type: integer
+    minimum: 1
+    maximum: 1024
+    title: "Amount of memory (GB)"
+    visible:
+      and:
+        - or:
+          - eq:
+            - instance_shape 
+            - "VM.Standard.E4.Flex"
+          - eq:
+            - instance_shape 
+            - "VM.Standard.A1.Flex"
+
+  instance_os:
+    type: enum
+    title: "Image OS"
+    enum:
+      - "Oracle Linux"
+    required: false
+    visible:
+      and:
+        - show_advanced
+
+  linux_os_version:
+    type: string
+    required: false
+    title: "Image OS Version"
+    visible:
+      and:
+        - show_advanced
+
+  loadbalancer_shape:
+    type: enum
+    title: "LoadBalancer Shape"
+    description: "Load Balancer Shape"
+    default: "flexible"
+    required: false 
+    enum:
+      - "flexible"
+      - "100Mbps"
+      - "10Mbps"
+      - "10Mbps-Micro"
+      - "400Mbps"
+      - "8000Mbps"
+
+  loadbalancer_minimum_bandwidth_in_mbps:
+    type: enum
+    required: false
+    default: "10"
+    title: "LoadBalancer Flex Min Bandwidth in mbps"
+    description: "Choose minimum bandwidth in mbps for Flex Load Balancer."
+    enum:
+      - "10"
+      - "100"
+      - "1000"
+      - "400"
+      - "8000"
+    visible:
+      and:
+        - eq:
+          - loadbalancer_shape 
+          - "flexible"
+
+  loadbalancer_maximum_bandwidth_in_mbps:
+    type: enum
+    required: false
+    default: "10"
+    title: "LoadBalancer Flex Max Bandwidth in mbps"
+    description: "Choose maximum bandwidth in mbps for Flex Load Balancer."
+    enum:
+      - "10"
+      - "100"
+      - "1000"
+      - "400"
+      - "8000"
+    visible:
+      and:
+        - eq:
+          - loadbalancer_shape 
+          - "flexible"
+
+  loadbalancer_display_name:
+    type: string
+    title: "LoadBalancer Display Name"
+    description: "LoadBalancer Display Name"
+    visible:
+      and:
+        - show_advanced
+
+  loadbalancer_backend_port:
+    type: integer
+    minimum: 1
+    maximum: 65535
+    title: "LoadBalancer Backend Port"
+    description: "LoadBalancer Backend Port"
+    visible:
+      and:
+        - show_advanced
+
+  loadbalancer_backend_set_name:
+    type: string
+    title: "LoadBalancer BackendSet Name"
+    description: "LoadBalancer BackendSet Name"
+    visible:
+      and:
+        - show_advanced
+
+  loadbalancer_backendset_policy:
+    type: enum
+    title: "LoadBalancer BackendSet Policy"
+    description: "LoadBalancer BackendSet Policy"
+    enum:
+      - "ROUND_ROBIN"
+      - "IP_HASH"
+      - "LEAST_CONNECTIONS"
+    visible:
+      and:
+        - show_advanced
+
+  loadbalancer_backendset_port:
+    type: integer
+    minimum: 1
+    maximum: 65535
+    title: "LoadBalancer BackendSet Port"
+    description: "LoadBalancer BackendSet Port (health_checker)"
+    visible:
+      and:
+        - show_advanced
+
+  loadbalancer_listener_port:
+    type: integer
+    minimum: 1
+    maximum: 65535
+    title: "LoadBalancer Listener Port"
+    description: "LoadBalancer Listener Port"
+    visible:
+      and:
+        - show_advanced
+
+  loadbalancer_listner_name:
+    type: string
+    title: "LoadBalancer Listener Name"
+    description: "LoadBalancer Listener Name"
+    visible:
+      and:
+        - show_advanced
+
+  batch_delay_in_seconds:
+    type: integer
+    minimum: 1
+    maximum: 255
+    title: "Batch delay"
+    description: "Number of Approvals in DevOps Deploy Approval Stage"
+
+  compute_instance_1_name:
+    type: string
+    title: "Name for 1st Compute Instance"
+    description: "Name for 1st Compute Instance"
+
+  compute_instance_2_name:
+    type: string
+    title: "Name for 2nd Compute Instance"
+    description: "Name for 2nd Compute Instance"
+
+  deploy_artifact_version:
+    type: string
+    title: "DevOps Artifact Version"
+    description: "DevOps Artifact Version"
+
+  devops_env_prod_displayname:
+    type: string
+    title: "DevOps Prod Environment Display Name"
+    description: "DevOps Prod Environment Display Name"
+
+  project_description:
+    type: string
+    title: "DevOps Project Description"
+    description: "A short description for the DevOps project"
+    default: "DevOps CI/CD Sample Project for Canary Deployment (Instances)"
+    required: false
+    visible: 
+      and:
+        - show_advanced
+  
+  build_pipeline_stage_display_name:
+    type: string
+    title: "DevOps Build Pipeline Stage Name"
+    description: "Name for the DevOps Build Pipeline Stage"
+    required: false
+    visible: true
+
+  build_pipeline_display_name:
+    type: string
+    title: "DevOps Build Pipeline Display Name"
+    description: "Name for the DevOps Build Pipeline Description"
+    required: false
+    visible: true    
+
+  build_pipeline_description:
+    type: string
+    title: "DevOps Build Pipeline Description"
+    description: "A short description for the DevOps Build Pipeline Description"
+    required: false
+    visible: true
+
+  repository_name:
+    type: string
+    title: "DevOps Repository Name"
+    description: "Name for DevOps Repository"
+    required: false
+    visible: true
+
+  repository_default_branch:
+    type: string
+    title: "DevOps Repository Default Branch"
+    description: "Choose Defaulf Branch for DevOps Repository"
+    required: false
+    visible: true
+
+  repository_description:
+    type: string
+    title: "DevOps Repository Description"
+    description: "A short description for the DevOps Repository"
+    required: false
+    visible: true
+
+  git_repo:
+    type: string
+    title: "GitHub.com Repository URL"
+    description: "GitHub.com Repository URL for making git clone command"
+    required: false
+    visible: true
+
+  git_repo_name:
+    type: string
+    title: "GitHub.com Repository Name"
+    description: "GitHub.com Repository Name for making git clone command"
+    required: false
+    visible: true
+
+  build_pipeline_stage_build_source_collection_items_name:
+    type: string
+    title: "Build Pipeline Build Stage Source Collection Items Name"
+    description: "Build Pipeline Build Stage Source Collection Items Name"
+    required: false
+    visible: true
+
+  build_pipeline_stage_stage_execution_timeout_in_seconds:
+    required: false
+    title: "DevOps Build Pipeline Stage execution timeout (in sec)"
+    description: "DevOps Build Pipeline Stage execution timeout (in sec)"
+    type: integer   
+    minimum: 36000
+    maximum: 360000
+    multipleOf: 1
+    default: 36000
+
+  deliver_artifact_stage_display_name: 
+    type: string
+    title: "Deliver Artifact Stage Display Name"
+    description: "DevOps Build Pipeline Deliver Artifact Stage Display Name"
+    required: false
+    visible: true
+  
+  deploy_stage_display_name:
+    type: string
+    title: "Deploy Stage Display Name"
+    description: "DevOps Build Pipeline Deploy Stage Display Name"
+    required: false
+    visible: true
+
+  deploy_pipeline_description:
+    type: string
+    title: "DevOps Deploy Pipeline Description"
+    description: "A short description for the DevOps Deploy Pipeline"
+    required: false
+    visible: true
+
+  build_pipeline_stage_is_pass_all_parameters_enabled:
+    type: boolean
+    title: "Build Pipeline Stage: is pass all parameters enabled?"
+    description: "DevOps Build Pipeline Deploy Stage - enable passing all parameters." 
+    required: false
+    visible: true
+

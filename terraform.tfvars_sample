@@ -1,0 +1,18 @@
+# Authentication
+tenancy_ocid         = ""
+user_ocid            = ""
+fingerprint          = ""
+private_key_path     = ""
+
+# Region
+region = ""
+
+# Compartment
+compartment_ocid = ""
+
+# OCI  
+oci_user_name         = "tenacy/username or federation details/tenancy/username"
+oci_user_authtoken     = ""
+
+
+
