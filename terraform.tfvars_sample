@@ -11,9 +11,8 @@ region = ""
 compartment_ocid = ""
 
 # OCI  
-oci_username         = "tenacy/username or federation details/tenancy/username"
+oci_user_name         = "tenacy/username or federation details/tenancy/username"
 oci_user_authtoken     = ""
 
-# Set a specific name for your deployments to prefix with a tag.
-app_name = ""
+
 
