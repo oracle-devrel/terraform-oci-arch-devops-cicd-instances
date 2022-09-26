@@ -31,8 +31,7 @@
         "dst": "git-askpass-helper.sh"
       },
       {
-        "src_pattern": "userdata/*",
-        "dst_path": "."
+        "src_pattern": "userdata/*"
       }
     ]
   },
