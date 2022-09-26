@@ -5,6 +5,7 @@ data "template_file" "bootstrap" {
   template = file("${path.module}/userdata/bootstrap")
 }
 
+
 data "template_cloudinit_config" "cloud_init" {
   gzip          = true
   base64_encode = true

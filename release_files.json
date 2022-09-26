@@ -25,6 +25,14 @@
       {
         "src": "orm/provider.tf",
         "dst": "provider.tf"
+      },
+      {
+        "src": "git-askpass-helper.sh",
+        "dst": "git-askpass-helper.sh"
+      },
+      {
+        "src_pattern": "userdata/*",
+        "dst_path": "."
       }
     ]
   },
