@@ -7,7 +7,7 @@ Whether you're migrating workloads to OCI (from on-premises or other clouds) or 
 In this reference architecture , we will be building and deploying a modern application to OCI compute instances.We will be using an application based on Graal Enterprise - Micronaut enabled java application.The application is exposed via an OCI loadbalancer to ensure a smooth shift of traffic during an active deployments.
 
 
-For details of the architecture, see [Build a CI/CD pipeline by using Oracle Cloud Infrastructure DevOps service and OCI Instances](TBD)
+For details of the architecture, see [Build a CI/CD pipeline by using Oracle Cloud Infrastructure DevOps service and OCI Instances](https://docs.oracle.com/en/solutions/cicd-pipeline-oci-devops-instances/index.html)
 
 ## Terraform Provider for Oracle Cloud Infrastructure
 The OCI Terraform Provider is now available for automatic download through the Terraform Provider Registry.
