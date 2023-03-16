@@ -27,7 +27,7 @@ variable "app_name" {
 
 variable "release" {
   description = "Reference Architecture Release (OCI Architecture Center)"
-  default     = "0.1"
+  default     = "0.2"
 }
 
 variable "project_logging_config_retention_period_in_days" {
