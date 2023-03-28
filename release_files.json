@@ -32,6 +32,9 @@
       },
       {
         "src_pattern": "userdata/*"
+      },
+      {
+        "src_pattern": "manifest/*"
       }
     ]
   },
